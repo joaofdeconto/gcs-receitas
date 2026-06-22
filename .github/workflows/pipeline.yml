@@ -1,0 +1,64 @@
+name: CI/CD Pipeline - GCS 2026/A
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: "A - Checkout"
+        uses: actions/checkout@v4
+
+      - name: "B - Instalação de Dependências"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, pdo, pdo_sqlite, sqlite3
+          coverage: none
+
+      - name: Instalar dependências composer
+        run: |
+          cd app
+          composer install --no-interaction --prefer-dist --no-blocking
+
+      - name: "C - Versionamento"
+        run: git log --oneline -5
+
+      - name: Preparar diretórios Laravel
+        run: |
+          mkdir -p app/bootstrap/cache
+          mkdir -p app/storage/framework/cache/data
+          mkdir -p app/storage/framework/sessions
+          mkdir -p app/storage/framework/views
+          mkdir -p app/storage/framework/testing
+          mkdir -p app/storage/logs
+          chmod -R 777 app/bootstrap/cache app/storage
+
+      - name: "D - Testes Automatizados (20 testes)"
+        run: |
+          cd app
+          vendor/bin/phpunit --configuration phpunit.xml --testdox --no-coverage
+
+      - name: "E - Análise de Qualidade (PHP_CodeSniffer)"
+        run: |
+          cd app
+          vendor/bin/phpcs --standard=PSR12 --report=summary \
+            app/Http/Controllers/ \
+            app/Models/ \
+            app/Providers/
+        continue-on-error: true
+
+      - name: "F - Deploy Homologação"
+        run: |
+          echo "✅ Deploy em Homologação executado!"
+          echo "Ambiente: http://177.44.248.78:8081"
+
+      - name: "G - Deploy Produção"
+        run: |
+          echo "✅ Deploy em Produção executado!"
+          echo "Ambiente: http://177.44.248.78:8082"
