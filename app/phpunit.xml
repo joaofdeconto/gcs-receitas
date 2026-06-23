@@ -14,7 +14,7 @@
     </testsuites>
     <php>
         <env name="APP_ENV" value="testing"/>
-        <env name="APP_KEY" value="base64:dGVzdGluZ2tleWZvcnBocHVuaXR0ZXN0czEyMzQ1Njc4OTAxMjM0"/>
+        <env name="APP_KEY" value="base64:U29tZVJhbmRvbUtleUZvclRlc3RpbmdQdXJwb3Nlcw=="/>
         <env name="DB_CONNECTION" value="sqlite"/>
         <env name="DB_DATABASE" value=":memory:"/>
         <env name="CACHE_STORE" value="array"/>
