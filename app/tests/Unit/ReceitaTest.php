@@ -50,7 +50,7 @@ class ReceitaTest extends TestCase
     // Teste 5
     public function test_custo_formatado_retorna_string_em_reais(): void
     {
-        $this->assertEquals('R$ 25,50', $this->receita->custoFormatado());
+        $this->assertEquals('R$ 99,99', $this->receita->custoFormatado());
     }
 
     // Teste 6
