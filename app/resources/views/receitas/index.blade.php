@@ -22,7 +22,7 @@
 </style>
 
 <div class="header-row">
-    <h1>Receitas Cadastradas</h1>
+    <h1>Receitas Cadastradas TOP</h1>
     <a href="{{ route('receitas.create') }}" class="btn">+ Nova Receita</a>
 </div>
 
